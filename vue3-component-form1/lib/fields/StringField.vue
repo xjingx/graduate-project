@@ -4,10 +4,10 @@
 
 <script lang="ts" setup="props">
 import { ref } from 'vue';
-import { FiledProps, Schema } from '../types';
+import { FiledPropsString, Schema } from '../types';
 
 export default {
-  props: FiledProps
+  props: FiledPropsString
 };
 
 declare const props: {

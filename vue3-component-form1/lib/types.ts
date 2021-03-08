@@ -45,3 +45,33 @@ export const FiledProps = {
     required: true
   }
 } as const;
+
+export const FiledPropsString = {
+  schema: {
+    type: Object as PropType<Schema>,
+    required: true
+  },
+  value: {
+    type: String,
+    required: true
+  },
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true
+  }
+} as const;
+
+export const FiledPropsNumber = {
+  schema: {
+    type: Object as PropType<Schema>,
+    required: true
+  },
+  value: {
+    type: Number,
+    required: true
+  },
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true
+  }
+} as const;

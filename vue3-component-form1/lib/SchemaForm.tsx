@@ -1,22 +1,10 @@
-import { defineComponent, PropType } from 'vue';
-import { Schema, SchemaTypes } from './types';
+import { defineComponent } from 'vue';
+import { FiledProps } from './types';
 import SchemaItem from './SchemaItems';
 
 export default defineComponent({
   name: 'SchemaForm',
-  props: {
-    schema: {
-      type: Object as PropType<Schema>,
-      required: true
-    },
-    value: {
-      required: true
-    },
-    onChange: {
-      type: Function as PropType<(v: any) => void>,
-      required: true
-    }
-  },
+  props: FiledProps,
   setup(props) {
     const handleChange = (v: any) => {
       props.onChange(v);

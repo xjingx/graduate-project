@@ -1,10 +1,25 @@
 import { defineComponent } from 'vue';
+import { FiledPropsNumber } from '../types';
 
 export default defineComponent({
   name: 'NumberFeild',
-  setup() {
+  props: FiledPropsNumber,
+  setup(props) {
+    const handleChange = (e: any) => {
+      const value = e.target.value;
+
+      const num = Number(value);
+
+      if (Number.isNaN(num)) {
+        props.onChange(undefined);
+      } else {
+        props.onChange(num);
+      }
+    };
+
     return () => {
-      return <div>Number field</div>;
+      const { value } = props;
+      return <input type="number" value={value} onInput={handleChange} />;
     };
   }
 });
