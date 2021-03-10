@@ -17,6 +17,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/no-explicit-any': ['off'],
-    camelcase: [1, { properties: 'never' }]
+    '@typescript-eslint/no-use-before-define': 'off',
+    'no-prototype-builtins': 'off',
+    '@typescript-eslint/camelcase': 'off'
   }
 };

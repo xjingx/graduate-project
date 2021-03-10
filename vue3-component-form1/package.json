@@ -8,9 +8,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/json-schema-merge-allof": "^0.6.0",
+    "@types/lodash.union": "^4.6.6",
+    "ajv": "^6.12.6",
+    "circular-dependency-plugin": "^5.2.2",
     "core-js": "^3.6.5",
+    "json-schema-merge-allof": "^0.8.1",
+    "jsonpointer": "^4.1.0",
     "jss": "^10.5.1",
     "jss-preset-default": "^10.5.1",
+    "lodash.union": "^4.6.0",
     "vue": "^3.0.0",
     "vue-jss": "^0.0.4"
   },
