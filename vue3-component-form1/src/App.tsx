@@ -92,6 +92,7 @@ export default defineComponent({
     });
 
     watchEffect(() => {
+      // 点击首页按钮会触发这个watch，改变index从而改变d，然后改变demo
       const index = selectedRef.value;
       const d = demos[index];
       demo.schema = d.schema;
@@ -107,11 +108,14 @@ export default defineComponent({
     const classesRef = useStyles();
 
     const handleChange = (v: any) => {
+      // 这是传给Schema的，改变时只改变demo.data和datacode，所以只有value部分的monacoEditor代码会变
       demo.data = v;
       demo.dataCode = toJson(v);
     };
 
     function handleCodeChange(
+      // 这是传给monacoEditor的，通过这个方法，monacoEditor改变时会改变demo的值，
+      // 反过来改变monacoEditor渲染的代码，同时demo的值改变，也会使Schema组件的渲染改变，以此做到双向绑定
       filed: 'schema' | 'data' | 'uiSchema',
       value: string
     ) {

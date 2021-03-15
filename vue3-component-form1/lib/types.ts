@@ -1,4 +1,5 @@
-import { PropType } from 'vue';
+import { PropType, defineComponent, inject } from 'vue';
+import { SchemaItemProvideKey } from './provideKeys';
 // 枚举类型
 export enum SchemaTypes {
   'NUMBER' = 'number',
@@ -117,3 +118,21 @@ export const FiledPropsNumber = {
     required: true
   }
 } as const;
+
+export const TypeHelper = defineComponent({
+  props: FiledItemProps
+});
+
+export type FieldTypeHelper = typeof TypeHelper;
+
+export function GetSchemaItemContent() {
+  const SchemaItemContent: { SchemaItem: FieldTypeHelper } | undefined = inject(
+    SchemaItemProvideKey
+  );
+
+  if (!SchemaItemContent) {
+    throw Error('this key is not exist');
+  }
+
+  return SchemaItemContent;
+}

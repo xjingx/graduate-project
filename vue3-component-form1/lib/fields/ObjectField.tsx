@@ -1,27 +1,14 @@
-import { defineComponent, inject } from 'vue';
-import { FiledItemProps } from '../types';
-import { SchemaItemProvideKey } from '../provideKeys';
+import { defineComponent } from 'vue';
+import { FiledItemProps, GetSchemaItemContent } from '../types';
 import { isObject } from '../utils';
-
-const TypeHelper = defineComponent({
-  props: FiledItemProps
-});
-
-type SchemaItemTypeHelper = typeof TypeHelper;
 
 export default defineComponent({
   name: 'ObjectField',
   props: FiledItemProps,
   setup(props) {
-    const SchemaItemContent:
-      | { SchemaItem: SchemaItemTypeHelper }
-      | undefined = inject(SchemaItemProvideKey);
+    const SchemaItemContent = GetSchemaItemContent();
 
-    if (!SchemaItemContent) {
-      throw Error('this key is not exist');
-    }
-
-    const handleObjectFieldChange = (k: string, v: any) => {
+    const handleObjectFieldChange = (v: any, k: string) => {
       const value: any = isObject(props.value) ? props.value : {};
 
       if (v === undefined) {
@@ -41,8 +28,6 @@ export default defineComponent({
 
       const currentValue: any = isObject(value) ? value : {};
 
-      console.log('propertise', properties);
-
       return Object.keys(properties).map(
         (key: any, index: number) => (
           <SchemaItem
@@ -50,7 +35,7 @@ export default defineComponent({
             rootSchema={rootSchema}
             value={currentValue[key]}
             key={index}
-            onChange={(v: any) => handleObjectFieldChange(key, v)}
+            onChange={(v: any) => handleObjectFieldChange(v, key)}
           />
         )
         // key={index}其实就和v-for一样给个标识，value就是默认值，如果value不是对象，就设置为空对象，因为有些ObjectSchema
