@@ -1,5 +1,6 @@
 import { defineComponent, PropType } from 'vue';
 import { FiledItemProps, GetSchemaItemContent, Schema } from '../types';
+import SelectArrayComponent from './detailComponent/SelectArrayComponent';
 import { createUseStyles } from 'vue-jss';
 
 const useStyles = createUseStyles({
@@ -208,6 +209,21 @@ export default defineComponent({
             </SingleArraySchema>
           );
         });
+      } else {
+        const enumOptions = (schema as any).items.enum;
+        const options = enumOptions.map((opValue: any) => {
+          return {
+            key: opValue,
+            value: opValue
+          };
+        });
+        return (
+          <SelectArrayComponent
+            onChange={props.onChange}
+            value={props.value}
+            options={options}
+          ></SelectArrayComponent>
+        );
       }
     };
   }
