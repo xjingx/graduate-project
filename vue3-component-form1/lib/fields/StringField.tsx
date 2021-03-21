@@ -1,17 +1,22 @@
 import { defineComponent } from 'vue';
-import { FiledPropsString } from '../types';
+import { FiledItemProps, CommonWidgetNames } from '../types';
+import { getWidget } from '../ThemeProcess';
 
 export default defineComponent({
   name: 'StringFeild',
-  props: FiledPropsString,
+  props: FiledItemProps,
   setup(props) {
-    const handleChange = (e: any) => {
-      console.log(e);
-      props.onChange(e.target.value);
+    const handleChange = (v: string) => {
+      return props.onChange(v);
     };
+
+    const TextWidgetRef = getWidget(CommonWidgetNames.TextWidget);
+
     return () => {
       const { value } = props;
-      return <input type="text" value={value} onInput={handleChange} />;
+      const TextWidget = TextWidgetRef.value;
+
+      return <TextWidget value={value} onChange={handleChange} />;
     };
   }
 });

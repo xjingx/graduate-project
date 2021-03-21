@@ -1,1 +1,2 @@
-export const SchemaItemProvideKey = Symbol();
+export const ProvideKey = Symbol();
+export const ThemeProvideKey = Symbol();

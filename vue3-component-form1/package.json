@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build:core": "cross-env NODE_ENV=lib vue-cli-service build --target lib --name index --no-clean lib/index.ts",
+    "build:theme": "cross-env NODE_ENV=lib vue-cli-service build --target lib --name theme/index --no-clean lib/theme/index.tsx",
+    "build": "rimraf dist && npm run build:core && npm run build:theme",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -13,6 +15,7 @@
     "ajv": "^6.12.6",
     "circular-dependency-plugin": "^5.2.2",
     "core-js": "^3.6.5",
+    "cross-env": "^7.0.3",
     "json-schema-merge-allof": "^0.8.1",
     "jsonpointer": "^4.1.0",
     "jss": "^10.5.1",
@@ -39,6 +42,7 @@
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.1",
     "prettier": "^1.19.1",
+    "rimraf": "^2.7.1",
     "typescript": "~3.9.3"
   },
   "gitHooks": {

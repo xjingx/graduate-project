@@ -1,5 +1,5 @@
-import { PropType, defineComponent, inject } from 'vue';
-import { SchemaItemProvideKey } from './provideKeys';
+import { PropType, defineComponent, inject, DefineComponent } from 'vue';
+import { ProvideKey } from './provideKeys';
 // 枚举类型
 export enum SchemaTypes {
   'NUMBER' = 'number',
@@ -81,44 +81,6 @@ export const FiledItemProps = {
   }
 } as const;
 
-export const FiledPropsString = {
-  schema: {
-    type: Object as PropType<Schema>,
-    required: true
-  },
-  value: {
-    type: String,
-    required: true
-  },
-  onChange: {
-    type: Function as PropType<(v: any) => void>,
-    required: true
-  },
-  rootSchema: {
-    type: Object as PropType<Schema>,
-    required: true
-  }
-} as const;
-
-export const FiledPropsNumber = {
-  schema: {
-    type: Object as PropType<Schema>,
-    required: true
-  },
-  value: {
-    type: Number,
-    required: true
-  },
-  onChange: {
-    type: Function as PropType<(v: any) => void>,
-    required: true
-  },
-  rootSchema: {
-    type: Object as PropType<Schema>,
-    required: true
-  }
-} as const;
-
 export const TypeHelper = defineComponent({
   props: FiledItemProps
 });
@@ -127,7 +89,7 @@ export type FieldTypeHelper = typeof TypeHelper;
 
 export function GetSchemaItemContent() {
   const SchemaItemContent: { SchemaItem: FieldTypeHelper } | undefined = inject(
-    SchemaItemProvideKey
+    ProvideKey
   );
 
   if (!SchemaItemContent) {
@@ -135,4 +97,71 @@ export function GetSchemaItemContent() {
   }
 
   return SchemaItemContent;
+}
+
+export function GetThemeContent() {
+  const ThemeContent: { theme: Theme } | undefined = inject(ProvideKey);
+
+  if (!ThemeContent) {
+    throw Error('this key is not exist');
+  }
+
+  return ThemeContent;
+}
+
+// 定义props类型
+export const CommonWidgetProps = {
+  value: {},
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true
+  }
+} as const;
+
+// 这里类似于一种继承，继承了CommonWidgetProps
+export const SelectionWidgetProps = {
+  ...CommonWidgetProps,
+  options: {
+    type: Array as PropType<
+      {
+        key: string;
+        value: any;
+      }[]
+    >,
+    required: true
+  }
+} as const;
+
+// 定义组件类型
+export type CommonWidget = DefineComponent<typeof CommonWidgetProps, {}, {}>;
+
+export type SelectionWidget = DefineComponent<
+  typeof SelectionWidgetProps,
+  {},
+  {}
+>;
+
+// 公共widget 没啥用 在某个widget没开发完成前 占位置的
+export const CommonWidget: CommonWidget = defineComponent({
+  props: CommonWidgetProps,
+  setup() {
+    return () => null;
+  }
+});
+
+export enum SelectionWidgetNames {
+  SelectionWidget = 'SelectionWidget'
+}
+
+export enum CommonWidgetNames {
+  TextWidget = 'TextWidget',
+  NumberWidget = 'NumberWidget'
+}
+
+export interface Theme {
+  widgets: {
+    [SelectionWidgetNames.SelectionWidget]: SelectionWidget;
+    [CommonWidgetNames.TextWidget]: CommonWidget;
+    [CommonWidgetNames.NumberWidget]: CommonWidget;
+  };
 }

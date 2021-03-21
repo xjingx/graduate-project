@@ -5,7 +5,8 @@ import MonacoEditor from './components/MonacoEditor';
 
 import demos from './demos';
 
-import SchemaForm from '../lib';
+import SchemaForm, { ThemeProcess } from '../lib';
+import theme from '../lib/theme';
 
 console.log('----->', demos);
 
@@ -182,11 +183,13 @@ export default defineComponent({
               </div>
             </div>
             <div class={classes.form}>
-              <SchemaForm
-                schema={demo.schema}
-                onChange={handleChange}
-                value={demo.data}
-              />
+              <ThemeProcess theme={theme}>
+                <SchemaForm
+                  schema={demo.schema}
+                  onChange={handleChange}
+                  value={demo.data}
+                />
+              </ThemeProcess>
               {/* <SchemaForm
                 schema={demo.schema!}
                 uiSchema={demo.uiSchema!}

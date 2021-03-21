@@ -1,7 +1,12 @@
 import { defineComponent, PropType } from 'vue';
-import { FiledItemProps, GetSchemaItemContent, Schema } from '../types';
-import SelectArrayComponent from './detailComponent/SelectArrayComponent';
+import {
+  FiledItemProps,
+  GetSchemaItemContent,
+  SelectionWidgetNames,
+  Schema
+} from '../types';
 import { createUseStyles } from 'vue-jss';
+import { getWidget } from '../ThemeProcess';
 
 const useStyles = createUseStyles({
   container: {
@@ -92,6 +97,7 @@ export default defineComponent({
   props: FiledItemProps,
   setup(props) {
     const SchemaItemContent = GetSchemaItemContent();
+    //const ThemeContent = GetThemeContent();
 
     const handleVariedTypeChange = (v: any, index: number) => {
       //第二种array类型的handleChange,v是值，index是具体哪一项
@@ -165,13 +171,19 @@ export default defineComponent({
       props.onChange(defaultValue);
     };
 
+    // Ref不能写在return里面，里面是render函数，创建Ref只能写在上面
+    const SelectionWidgetRef = getWidget(SelectionWidgetNames.SelectionWidget);
+
     return () => {
+      //const SelectArrayComponent = ThemeContent.theme.widgets.SelectionWidget;
+      const SelectionWidget = SelectionWidgetRef.value;
+      console.log('selection', SelectionWidget);
       const { schema, rootSchema, value } = props;
       const SchemaItem = SchemaItemContent.SchemaItem;
 
       const isVariedType = Array.isArray(schema.items); // 判断是否为多种type的item，也就是是否为第二重情况
       const isSelect = schema.items && (schema.items as any).enum; //判断是否为第一种，就是有没有enum
-
+      console.log('isVa', isVariedType);
       if (isVariedType) {
         const items: Schema[] = schema.items as any;
         const defaultValue: Array<any> = Array.isArray(value) ? value : []; //判断默认值是否存在
@@ -189,6 +201,7 @@ export default defineComponent({
         });
       } else if (!isSelect) {
         const defaultValue = Array.isArray(value) ? value : [];
+        console.log('de', defaultValue);
         // 为什么这个不用items，因为这个items只有一种情况，恒只有一种，根据value的值来渲染看多少个组件
         return defaultValue.map((v: any, index: number) => {
           return (
@@ -218,11 +231,11 @@ export default defineComponent({
           };
         });
         return (
-          <SelectArrayComponent
+          <SelectionWidget
             onChange={props.onChange}
             value={props.value}
             options={options}
-          ></SelectArrayComponent>
+          ></SelectionWidget>
         );
       }
     };
