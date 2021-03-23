@@ -1,5 +1,6 @@
-import { PropType, defineComponent, inject, DefineComponent } from 'vue';
+import { PropType, defineComponent, inject, DefineComponent, Ref } from 'vue';
 import { ProvideKey } from './provideKeys';
+import { Options } from 'ajv';
 // 枚举类型
 export enum SchemaTypes {
   'NUMBER' = 'number',
@@ -49,6 +50,13 @@ export interface Schema {
   exclusiveMinimum?: number;
 }
 
+interface ContextRef {
+  doValidate: () => {
+    errors: any[];
+    valid: boolean;
+  };
+}
+
 export const FiledFormProps = {
   schema: {
     type: Object as PropType<Schema>,
@@ -60,6 +68,12 @@ export const FiledFormProps = {
   onChange: {
     type: Function as PropType<(v: any) => void>,
     required: true
+  },
+  contextRef: {
+    type: Object as PropType<Ref<ContextRef | undefined>>
+  },
+  ajvOptions: {
+    type: Object as PropType<Options>
   }
 } as const;
 

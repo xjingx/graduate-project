@@ -1,4 +1,4 @@
-import { defineComponent, provide, reactive } from 'vue'; //provide和inject解决循环引用，可以在孙子节点通过inject拿到
+import { defineComponent, provide, watch, reactive } from 'vue'; //provide和inject解决循环引用，可以在孙子节点通过inject拿到
 import { FiledFormProps } from './types'; //provide提供的祖先节点
 import SchemaItem from './SchemaItems';
 import { ProvideKey } from './provideKeys';
@@ -16,6 +16,25 @@ export default defineComponent({
     //只不过这个地方用单纯对象也可以，SchemaItem一般是不会进行改变的，因为是个组件，不是变量
 
     provide(ProvideKey, ProvideContent);
+
+    watch(
+      () => props.contextRef,
+      () => {
+        if (props.contextRef) {
+          props.contextRef.value = {
+            doValidate() {
+              return {
+                valid: true,
+                errors: []
+              };
+            }
+          };
+        }
+      },
+      {
+        immediate: true
+      }
+    );
 
     return () => {
       const { schema, value } = props;

@@ -6,6 +6,8 @@ import MonacoEditor from './components/MonacoEditor';
 import demos from './demos';
 
 import SchemaForm, { ThemeProcess } from '../lib';
+
+// 这里面是theme的内容
 import theme from '../lib/theme';
 
 console.log('----->', demos);
@@ -133,6 +135,7 @@ export default defineComponent({
     const handleDataChange = (v: string) => handleCodeChange('data', v);
     const handleUISchemaChange = (v: string) => handleCodeChange('uiSchema', v);
 
+    const contextRef = ref();
     return () => {
       const classes = classesRef.value;
       const selected = selectedRef.value;
@@ -188,6 +191,7 @@ export default defineComponent({
                   schema={demo.schema}
                   onChange={handleChange}
                   value={demo.data}
+                  contextRef={contextRef}
                 />
               </ThemeProcess>
               {/* <SchemaForm
@@ -197,6 +201,7 @@ export default defineComponent({
                 contextRef={methodRef}
                 value={demo.data}
               /> */}
+              <button onClick={() => contextRef.value.doVlidate()}>校验</button>
             </div>
           </div>
         </div>
