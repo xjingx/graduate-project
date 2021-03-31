@@ -1,14 +1,22 @@
 {
-  "name": "vue3-component-form1",
+  "name": "grd-project-test",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build:core": "cross-env NODE_ENV=lib vue-cli-service build --target lib --name index --no-clean lib/index.ts",
     "build:theme": "cross-env NODE_ENV=lib vue-cli-service build --target lib --name theme/index --no-clean lib/theme/index.tsx",
     "build": "rimraf dist && npm run build:core && npm run build:theme",
+    "prepublishOnly": "npm run build",
     "lint": "vue-cli-service lint"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.common.js",
   "dependencies": {
     "@types/json-schema-merge-allof": "^0.6.0",
     "@types/lodash.union": "^4.6.6",
