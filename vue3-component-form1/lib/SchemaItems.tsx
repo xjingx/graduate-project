@@ -1,5 +1,5 @@
 import { defineComponent, computed } from 'vue';
-import { SchemaTypes, FiledItemProps } from './types';
+import { SchemaTypes, FiledItemProps, GetTransformSchema } from './types';
 import StringField from './fields/StringField';
 import NumberField from './fields/NumberField';
 import ObjectField from './fields/ObjectField';
@@ -10,13 +10,17 @@ export default defineComponent({
   name: 'SchemaItem',
   props: FiledItemProps,
   setup(props) {
+    const transformSchemaContent = GetTransformSchema();
+    // 遍历处理
     const retrieveSchemaRef = computed(() => {
       const { schema, rootSchema, value } = props;
-      return retrieveSchema(schema, rootSchema, value);
+      return transformSchemaContent.transformSchemaRef.value(
+        retrieveSchema(schema, rootSchema, value)
+      );
     });
 
     return () => {
-      console.log('111', props.value);
+      console.log('111', props.uiSchema);
       const { schema } = props;
       const retrieveSchema = retrieveSchemaRef.value;
 

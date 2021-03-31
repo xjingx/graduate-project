@@ -1,19 +1,37 @@
 import { CommonWidget, CommonWidgetProps } from '../types';
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent, nextTick, computed } from 'vue';
 
-const TextWidget: CommonWidget = defineComponent({
-  props: CommonWidgetProps,
-  setup(props) {
-    const handleChange = (e: any) => {
-      //e.target.value = props.value;
-      props.onChange(e.target.value);
-    };
+import { withFormItem } from './FormInfo';
 
-    return () => {
-      const { value } = props;
-      return <input type="text" value={value as any} onInput={handleChange} />;
-    };
-  }
-});
+const TextWidget: CommonWidget = withFormItem(
+  defineComponent({
+    name: 'TextWidget',
+    props: CommonWidgetProps,
+    setup(props) {
+      const handleChange = (e: any) => {
+        //e.target.value = props.value;
+        props.onChange(e.target.value);
+      };
+
+      const styleRef = computed(() => {
+        return {
+          color: (props.options && props.options.color) || 'black'
+        };
+      });
+
+      return () => {
+        const { value } = props;
+        return (
+          <input
+            type="text"
+            value={value as any}
+            onInput={handleChange}
+            style={styleRef.value}
+          />
+        );
+      };
+    }
+  })
+);
 
 export default TextWidget;

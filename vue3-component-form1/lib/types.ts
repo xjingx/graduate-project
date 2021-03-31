@@ -1,6 +1,17 @@
 import { PropType, defineComponent, inject, DefineComponent, Ref } from 'vue';
-import { ProvideKey } from './provideKeys';
-import { Options } from 'ajv';
+import {
+  ProvideKey,
+  ThemeProvideKey,
+  formatMapRefProvideKey,
+  transformSchemaProvideKey
+} from './provideKeys';
+import {
+  Options,
+  FormatDefinition,
+  KeywordDefinition,
+  CompilationContext
+} from 'ajv';
+import { ErrorSchema } from './validate';
 // 枚举类型
 export enum SchemaTypes {
   'NUMBER' = 'number',
@@ -51,10 +62,10 @@ export interface Schema {
 }
 
 interface ContextRef {
-  doValidate: () => {
+  doValidate: () => Promise<{
     errors: any[];
     valid: boolean;
-  };
+  }>;
 }
 
 export const FiledFormProps = {
@@ -74,8 +85,73 @@ export const FiledFormProps = {
   },
   ajvOptions: {
     type: Object as PropType<Options>
+  },
+  locale: {
+    type: String,
+    default: 'zh'
+  },
+  customValidate: {
+    type: Function as PropType<(data: any, errors: any) => void>
+  },
+  uiSchema: {
+    type: Object as PropType<uiSchema>
+  },
+  customFormats: {
+    type: [Array, Object] as PropType<CustomFormat[] | CustomFormat>
+  },
+  customKeywords: {
+    type: [Array, Object] as PropType<CustomKeyWord[] | CustomKeyWord>
   }
 } as const;
+
+// error信息
+export const defaultAjvOptions: Options = {
+  allErrors: true
+  // validate里面toPath解析的是.pass1.xx这种路径，jsonPointers会转成/obj/a这种斜杠
+  //jsonPointers: true
+};
+
+export type uiSchema = {
+  widget?: string | CommonWidget;
+  // properties对应对象的元素
+  properties?: {
+    [key: string]: uiSchema;
+  };
+  // items对应数组元素，单类型数组就第一种，多类型就第二种
+  items?: uiSchema | uiSchema[];
+} & {
+  [key: string]: any;
+};
+
+export interface CustomFormat {
+  name: string;
+  definition: FormatDefinition;
+  component: CommonWidget;
+}
+
+interface CustomKeywordDefinition {
+  type?: string | Array<string>;
+  async?: boolean;
+  $data?: boolean;
+  errors?: boolean | string;
+  metaSchema?: object;
+  schema?: boolean;
+  statements?: boolean;
+  dependencies?: Array<string>;
+  modifying?: boolean;
+  valid?: boolean;
+  macro: (
+    schema: any,
+    parentSchema: object,
+    it: CompilationContext
+  ) => object | boolean;
+}
+
+export interface CustomKeyWord {
+  name: string;
+  definition: CustomKeywordDefinition;
+  transformSchema: (originSchema: Schema) => Schema;
+}
 
 export const FiledItemProps = {
   schema: {
@@ -92,6 +168,14 @@ export const FiledItemProps = {
   rootSchema: {
     type: Object as PropType<Schema>,
     required: true
+  },
+  errorSchema: {
+    type: Object as PropType<ErrorSchema>,
+    required: true
+  },
+  uiSchema: {
+    type: Object as PropType<uiSchema>,
+    required: true
   }
 } as const;
 
@@ -101,6 +185,7 @@ export const TypeHelper = defineComponent({
 
 export type FieldTypeHelper = typeof TypeHelper;
 
+// 获取SchemaItem
 export function GetSchemaItemContent() {
   const SchemaItemContent: { SchemaItem: FieldTypeHelper } | undefined = inject(
     ProvideKey
@@ -113,8 +198,9 @@ export function GetSchemaItemContent() {
   return SchemaItemContent;
 }
 
+// 获取Theme(好像没用了)
 export function GetThemeContent() {
-  const ThemeContent: { theme: Theme } | undefined = inject(ProvideKey);
+  const ThemeContent: { theme: Theme } | undefined = inject(ThemeProvideKey);
 
   if (!ThemeContent) {
     throw Error('this key is not exist');
@@ -123,12 +209,49 @@ export function GetThemeContent() {
   return ThemeContent;
 }
 
+// 获取formatRef
+export function GetFormatRefContent() {
+  const FormatRefContent:
+    | { formatMapRef: Ref<{ [key: string]: CommonWidget }> }
+    | undefined = inject(formatMapRefProvideKey);
+
+  if (!FormatRefContent) {
+    throw Error('this key is not exist');
+  }
+
+  return FormatRefContent;
+}
+
+// 获取transformSchema
+
+export function GetTransformSchema() {
+  const TransformSchemaContent:
+    | { transformSchemaRef: Ref<(schema: Schema) => Schema> }
+    | undefined = inject(transformSchemaProvideKey);
+
+  if (!TransformSchemaContent) {
+    throw Error('this key is not exist');
+  }
+
+  return TransformSchemaContent;
+}
+
 // 定义props类型
 export const CommonWidgetProps = {
   value: {},
   onChange: {
     type: Function as PropType<(v: any) => void>,
     required: true
+  },
+  errors: {
+    type: Array as PropType<string[]>
+  },
+  schema: {
+    type: Object as PropType<Schema>,
+    required: true
+  },
+  options: {
+    type: Object as PropType<{ [keys: string]: any }>
   }
 } as const;
 

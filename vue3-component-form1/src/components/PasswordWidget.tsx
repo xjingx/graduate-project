@@ -1,9 +1,11 @@
-import { CommonWidget, CommonWidgetProps } from '../types';
+import { CommonWidget, CommonWidgetProps } from '../../lib/types';
 import { defineComponent, nextTick } from 'vue';
-import { withFormItem } from './FormInfo';
 
-const NumberWidget: CommonWidget = withFormItem(
+import { withFormItem } from '../../lib/theme/FormInfo';
+
+const PasswordWidget: CommonWidget = withFormItem(
   defineComponent({
+    name: 'PasswordWidget',
     props: CommonWidgetProps,
     setup(props) {
       const handleChange = (e: any) => {
@@ -14,11 +16,11 @@ const NumberWidget: CommonWidget = withFormItem(
       return () => {
         const { value } = props;
         return (
-          <input type="number" value={value as any} onInput={handleChange} />
+          <input type="password" value={value as any} onInput={handleChange} />
         );
       };
     }
   })
 );
 
-export default NumberWidget;
+export default PasswordWidget;

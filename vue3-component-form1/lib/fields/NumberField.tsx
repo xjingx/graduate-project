@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { FiledItemProps, CommonWidgetNames } from '../types';
 import { getWidget } from '../ThemeProcess';
 
@@ -16,12 +16,22 @@ export default defineComponent({
       }
     };
 
-    const NumberWidgetRef = getWidget(CommonWidgetNames.NumberWidget);
+    const NumberWidgetRef = computed(() => {
+      const widgetRef = getWidget(CommonWidgetNames.NumberWidget, props);
+      return widgetRef.value;
+    });
 
     return () => {
-      const { value } = props;
+      const { value, errorSchema, schema } = props;
       const NumberWidget = NumberWidgetRef.value;
-      return <NumberWidget value={value} onChange={handleChange} />;
+      return (
+        <NumberWidget
+          value={value}
+          errors={errorSchema._errors}
+          onChange={handleChange}
+          schema={schema}
+        />
+      );
     };
   }
 });

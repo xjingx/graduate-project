@@ -20,6 +20,7 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'off',
     'no-prototype-builtins': 'off',
     '@typescript-eslint/camelcase': 'off',
-    'vue/no-mutating-props': 'off'
+    'vue/no-mutating-props': 'off',
+    '@typescript-eslint/class-name-casing': 'off'
   }
 };

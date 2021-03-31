@@ -9,6 +9,8 @@ import SchemaForm, { ThemeProcess } from '../lib';
 
 // 这里面是theme的内容
 import theme from '../lib/theme';
+import { format } from './formats/customFormat';
+import customKeyword from './formats/customKeyword';
 
 console.log('----->', demos);
 
@@ -85,25 +87,28 @@ export default defineComponent({
       schemaCode: string;
       dataCode: string;
       uiSchemaCode: string;
+      customValidate: ((d: any, e: any) => void) | undefined;
     } = reactive({
       schema: null,
       data: {},
       uiSchema: {},
       schemaCode: '',
       dataCode: '',
-      uiSchemaCode: ''
+      uiSchemaCode: '',
+      customValidate: undefined
     });
 
     watchEffect(() => {
       // 点击首页按钮会触发这个watch，改变index从而改变d，然后改变demo
       const index = selectedRef.value;
-      const d = demos[index];
+      const d: any = demos[index];
       demo.schema = d.schema;
       demo.data = d.default;
       demo.uiSchema = d.uiSchema;
       demo.schemaCode = toJson(d.schema);
       demo.dataCode = toJson(d.default);
       demo.uiSchemaCode = toJson(d.uiSchema);
+      demo.customValidate = d.customValidate;
     });
 
     const methodRef: Ref<any> = ref();
@@ -136,6 +141,14 @@ export default defineComponent({
     const handleUISchemaChange = (v: string) => handleCodeChange('uiSchema', v);
 
     const contextRef = ref();
+    const nameRef = ref();
+
+    function doVerify() {
+      contextRef.value.doValidate().then((res: any) => {
+        console.log(res);
+      });
+    }
+
     return () => {
       const classes = classesRef.value;
       const selected = selectedRef.value;
@@ -189,9 +202,14 @@ export default defineComponent({
               <ThemeProcess theme={theme}>
                 <SchemaForm
                   schema={demo.schema}
+                  uiSchema={demo.uiSchema || {}}
                   onChange={handleChange}
                   value={demo.data}
                   contextRef={contextRef}
+                  customFormats={format}
+                  customKeywords={customKeyword}
+                  ref={nameRef} //不知道这个是啥
+                  customValidate={demo.customValidate}
                 />
               </ThemeProcess>
               {/* <SchemaForm
@@ -201,7 +219,7 @@ export default defineComponent({
                 contextRef={methodRef}
                 value={demo.data}
               /> */}
-              <button onClick={() => contextRef.value.doVlidate()}>校验</button>
+              <button onClick={doVerify}>校验</button>
             </div>
           </div>
         </div>

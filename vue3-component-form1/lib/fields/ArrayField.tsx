@@ -177,23 +177,34 @@ export default defineComponent({
     return () => {
       //const SelectArrayComponent = ThemeContent.theme.widgets.SelectionWidget;
       const SelectionWidget = SelectionWidgetRef.value;
+
       console.log('selection', SelectionWidget);
-      const { schema, rootSchema, value } = props;
+
+      const { schema, rootSchema, value, errorSchema, uiSchema } = props;
       const SchemaItem = SchemaItemContent.SchemaItem;
 
       const isVariedType = Array.isArray(schema.items); // 判断是否为多种type的item，也就是是否为第二重情况
       const isSelect = schema.items && (schema.items as any).enum; //判断是否为第一种，就是有没有enum
+
       console.log('isVa', isVariedType);
+
       if (isVariedType) {
         const items: Schema[] = schema.items as any;
         const defaultValue: Array<any> = Array.isArray(value) ? value : []; //判断默认值是否存在
 
         return items.map((v: Schema, index: number) => {
+          const itemUIschema = uiSchema.items;
+          // 判断是不是数组 从而决定应该是什么
+          const us = Array.isArray(itemUIschema)
+            ? itemUIschema[index] || {}
+            : itemUIschema || {};
           return (
             <SchemaItem
               schema={v}
+              uiSchema={us}
               key={index}
               rootSchema={rootSchema}
+              errorSchema={errorSchema[index] || []}
               value={defaultValue[index]}
               onChange={(v: any) => handleVariedTypeChange(v, index)}
             />
@@ -214,9 +225,11 @@ export default defineComponent({
             >
               <SchemaItem
                 schema={schema.items as Schema}
+                uiSchema={(uiSchema.items as any) || {}}
                 value={v}
                 key={index}
                 rootSchema={rootSchema}
+                errorSchema={errorSchema[index] || []}
                 onChange={(v: any) => handleSingleSchemaChange(v, index)}
               />
             </SingleArraySchema>
@@ -235,6 +248,8 @@ export default defineComponent({
             onChange={props.onChange}
             value={props.value}
             options={options}
+            errors={errorSchema._errors}
+            schema={schema}
           ></SelectionWidget>
         );
       }

@@ -22,7 +22,7 @@ export default defineComponent({
     };
 
     return () => {
-      const { schema, rootSchema, value } = props;
+      const { schema, rootSchema, value, errorSchema, uiSchema } = props;
       const { SchemaItem } = SchemaItemContent;
       const properties = schema.properties || {}; //有可能不存在properties
 
@@ -32,8 +32,10 @@ export default defineComponent({
         (key: any, index: number) => (
           <SchemaItem
             schema={properties[key]}
+            uiSchema={uiSchema.properties ? uiSchema.properties[key] || {} : {}}
             rootSchema={rootSchema}
             value={currentValue[key]}
+            errorSchema={errorSchema[key] || {}}
             key={index}
             onChange={(v: any) => handleObjectFieldChange(v, key)}
           />

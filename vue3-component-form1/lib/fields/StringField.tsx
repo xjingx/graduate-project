@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { FiledItemProps, CommonWidgetNames } from '../types';
 import { getWidget } from '../ThemeProcess';
 
@@ -10,13 +10,30 @@ export default defineComponent({
       return props.onChange(v);
     };
 
-    const TextWidgetRef = getWidget(CommonWidgetNames.TextWidget);
+    // 如果uiSchema 变了，不用computed 拿到的widget是不会变得
+    const TextWidgetRef = computed(() => {
+      const widgetRef = getWidget(CommonWidgetNames.TextWidget, props);
+      return widgetRef.value;
+    });
+
+    const widgetOptionsRef = computed(() => {
+      const { widget, properties, items, ...rest } = props.uiSchema;
+      return rest;
+    });
 
     return () => {
-      const { value } = props;
+      const { value, errorSchema, schema } = props;
       const TextWidget = TextWidgetRef.value;
 
-      return <TextWidget value={value} onChange={handleChange} />;
+      return (
+        <TextWidget
+          value={value}
+          errors={errorSchema._errors}
+          onChange={handleChange}
+          schema={schema}
+          options={widgetOptionsRef.value}
+        />
+      );
     };
   }
 });

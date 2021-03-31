@@ -4,10 +4,22 @@ import {
   provide,
   computed,
   inject,
-  ComputedRef
+  ComputedRef,
+  ref,
+  shallowRef,
+  ExtractPropTypes
 } from 'vue';
-import { Theme, SelectionWidgetNames, CommonWidgetNames } from './types';
+import {
+  Theme,
+  SelectionWidgetNames,
+  CommonWidgetNames,
+  uiSchema,
+  CommonWidget,
+  FiledItemProps,
+  GetFormatRefContent
+} from './types';
 import { ThemeProvideKey } from './provideKeys';
+import { isObject } from './utils';
 
 const ThemeProcess = defineComponent({
   name: 'ThemeProcess',
@@ -30,8 +42,24 @@ const ThemeProcess = defineComponent({
 });
 
 export function getWidget<T extends SelectionWidgetNames | CommonWidgetNames>(
-  widgetName: T
+  widgetName: T,
+  props?: ExtractPropTypes<typeof FiledItemProps>
 ) {
+  const formatContent = GetFormatRefContent();
+
+  // 是对象就直接返回,有可能是string
+  if (props) {
+    const { uiSchema, schema } = props;
+    if (uiSchema?.widget && isObject(uiSchema.widget)) {
+      return ref(uiSchema.widget as CommonWidget);
+    }
+    if (schema.format) {
+      if (formatContent.formatMapRef.value[schema.format]) {
+        // 拿到的是组件 转成ref
+        return shallowRef(formatContent.formatMapRef.value[schema.format]);
+      }
+    }
+  }
   // 因为是计算类型 所以ComputedRef， 如果key不对，inject返回undefined，inject后面是提供的泛型
   const content: ComputedRef<Theme> | undefined = inject<ComputedRef<Theme>>(
     ThemeProvideKey

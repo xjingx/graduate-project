@@ -6,27 +6,33 @@ export default {
     required: ['firstName', 'lastName'],
     properties: {
       firstName: {
+        title: 'firstName',
         type: 'string',
         default: 'Chuck'
       },
       lastName: {
+        title: 'lastName',
         type: 'string'
       },
       telephone: {
+        title: 'telephone',
         type: 'string',
         minLength: 10
       },
       staticArray: {
+        title: 'staticArray',
         type: 'array',
         items: [{ type: 'string' }, { type: 'number' }]
       },
       singleTypeArray: {
+        title: 'singleTypeArray',
         type: 'array',
         items: {
           type: 'string'
         }
       },
       singleTypeOptionsArray: {
+        title: 'singleTypeOptionsArray',
         type: 'array',
         items: {
           type: 'string',
