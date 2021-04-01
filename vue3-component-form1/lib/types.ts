@@ -83,6 +83,7 @@ export const FiledFormProps = {
   contextRef: {
     type: Object as PropType<Ref<ContextRef | undefined>>
   },
+  // 可以不传，应该类似于增加一些ajv错误配置之类的
   ajvOptions: {
     type: Object as PropType<Options>
   },
@@ -106,6 +107,7 @@ export const FiledFormProps = {
 
 // error信息
 export const defaultAjvOptions: Options = {
+  // 使用ajv包的必须配置
   allErrors: true
   // validate里面toPath解析的是.pass1.xx这种路径，jsonPointers会转成/obj/a这种斜杠
   //jsonPointers: true
