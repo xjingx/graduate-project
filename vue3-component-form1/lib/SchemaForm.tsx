@@ -23,7 +23,6 @@ import {
 } from './provideKeys';
 import { validateFormData, ErrorSchema } from './validate';
 import Ajv from 'ajv';
-import keyword from '@/formats/customKeyword';
 
 export default defineComponent({
   name: 'SchemaForm',

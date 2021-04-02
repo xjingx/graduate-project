@@ -1,11 +1,11 @@
 {
   "name": "grd-project-test",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build:core": "cross-env NODE_ENV=lib vue-cli-service build --target lib --name index --no-clean lib/index.ts",
-    "build:theme": "cross-env NODE_ENV=lib vue-cli-service build --target lib --name theme/index --no-clean lib/theme/index.tsx",
+    "build:core": "cross-env TYPE=lib vue-cli-service build --target lib --name index --no-clean lib/index.ts",
+    "build:theme": "cross-env TYPE=lib vue-cli-service build --target lib --name theme/index --no-clean lib/theme/index.tsx",
     "build": "rimraf dist && npm run build:core && npm run build:theme",
     "prepublishOnly": "npm run build",
     "lint": "vue-cli-service lint"
