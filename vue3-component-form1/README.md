@@ -69,3 +69,94 @@ export interface UISchema extends VueJsonSchemaConfig {
   };
 }
 ```
+
+### 使用样例
+
+HelloWorld.js
+
+```jsx
+import { defineComponent, ref } from 'vue';
+import SchemaForm, { ThemeProcess } from 'grd-project-test';
+import theme from 'grd-project-test/dist/theme/index.common';
+import demos from '../assets/demo';
+
+export default defineComponent({
+  name: 'HelloWorld',
+  setup(props) {
+    let demo = demos;
+    let contextRef = ref();
+    function handleOnChange(v) {
+      demo.value = v;
+      console.log('new value', v);
+    }
+    function doVerify() {
+      console.log('1', contextRef.value.doValidate);
+      contextRef.value.doValidate().then((res) => {
+        console.log(res);
+      });
+    }
+    console.log('json', contextRef);
+    console.log('json1', contextRef.value);
+    return () => {
+      return (
+        <div>
+          <h1>{props.msg}</h1>
+          <ThemeProcess theme={theme}>
+            <SchemaForm
+              schema={demo.schema}
+              value={demo.default}
+              onChange={handleOnChange}
+              uiSchema={demo.uiSchema}
+              contextRef={contextRef}
+            />
+          </ThemeProcess>
+          <button onClick={doVerify}>校验</button>
+        </div>
+      );
+    };
+  }
+});
+```
+
+demo.js
+
+```js
+export default {
+  name: 'Demo',
+  schema: {
+    type: 'object',
+    properties: {
+      pass1: {
+        type: 'string',
+        minLength: 10,
+        test: true,
+        title: 'password'
+      },
+      pass2: {
+        type: 'string',
+        minLength: 10,
+        title: 're try password'
+      }
+    }
+  },
+  default: {
+    pass1: '',
+    pass2: ''
+  },
+  uiSchema: {
+    properties: {
+      pass1: {
+        color: 'blue'
+      },
+      pass2: {
+        color: 'red'
+      }
+    }
+  }
+};
+```
+
+### 注意事项
+
+1. 最好使用 jsx 而不是 sfc
+2. 即使用 sfc，要使用 setup 写法

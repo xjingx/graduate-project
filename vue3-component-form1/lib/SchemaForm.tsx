@@ -146,7 +146,7 @@ export default defineComponent({
 
       errorSchemaRef.value = result.errorSchema;
 
-      verifyResolveRef.value(result);
+      verifyResolveRef.value(result); //verifyResolveRef.value = promise里的resolve
       //重置
       verifyResolveRef.value = undefined;
       //return result;
