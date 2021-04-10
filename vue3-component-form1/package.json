@@ -8,7 +8,9 @@
     "build:theme": "cross-env TYPE=lib vue-cli-service build --target lib --name theme/index --no-clean lib/theme/index.tsx",
     "build": "rimraf dist && npm run build:core && npm run build:theme",
     "prepublishOnly": "npm run build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit",
+    "test:unit:cov": "vue-cli-service test:unit --coverage"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -18,6 +20,7 @@
   ],
   "main": "dist/index.common.js",
   "dependencies": {
+    "@types/jest": "^24.0.19",
     "@types/json-schema-merge-allof": "^0.6.0",
     "@types/lodash.union": "^4.6.6",
     "ajv": "^6.12.6",
@@ -43,10 +46,12 @@
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-plugin-unit-jest": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "@vue/test-utils": "^2.0.0-0",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^7.0.0-0",
@@ -55,7 +60,8 @@
     "monaco-editor-webpack-plugin": "^1.9.1",
     "prettier": "^1.19.1",
     "rimraf": "^2.7.1",
-    "typescript": "~3.9.3"
+    "typescript": "~3.9.3",
+    "vue-jest": "^5.0.0-0"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

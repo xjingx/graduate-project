@@ -43,6 +43,7 @@ export interface Schema {
   oneOf?: Schema[];
   anyOf?: Schema[];
   allOf?: Schema[];
+  $ref?: any;
   // TODO: uiSchema
   // vjsf?: VueJsonSchemaConfig
   required?: string[];

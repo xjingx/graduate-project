@@ -148,7 +148,7 @@ export function stubExistingAdditionalProperties(
 //   }
 // }
 
-function resolveReference(schema: any, rootSchema: any, formData: any): Schema {
+export function resolveReference(schema: any, rootSchema: any, formData: any): Schema {
   // Retrieve the referenced schema definition.
   const $refSchema = findSchemaDefinition(schema.$ref, rootSchema);
   // Drop the $ref property of the source schema.
