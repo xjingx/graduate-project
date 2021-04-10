@@ -1,13 +1,14 @@
-import { defineComponent, ref, watch } from 'vue';
-import { SelectionWidget, SelectionWidgetProps } from '../types';
-import { withFormItem } from './FormInfo';
+import { CommonWidget, CommonWidgetProps } from '../../types';
+import { defineComponent, nextTick, ref, watch } from 'vue';
 import 'element-plus/lib/theme-chalk/index.css'
-import { ElSelect, ElOption } from 'element-plus'
+import { ElInput } from 'element-plus'
 
-const SelectionWidget: SelectionWidget = withFormItem(
+import { withFormItem } from '../FormInfo';
+
+const PasswordWidget: CommonWidget = withFormItem(
   defineComponent({
-    name: 'SelectArrayComponent',
-    props: SelectionWidgetProps,
+    name: 'PasswordWidget',
+    props: CommonWidgetProps,
     setup(props) {
       const changeValueRef = ref(props.value);
 
@@ -30,18 +31,15 @@ const SelectionWidget: SelectionWidget = withFormItem(
           }
         }
       );
+
       return () => {
-        const { options } = props;
+        const { value } = props;
         return (
-          <ElSelect v-model={changeValueRef.value}>
-            {options.map((opValue) => {
-              return <ElOption value={opValue.value}>{opValue.key}</ElOption>;
-            })}
-          </ElSelect>
+          <ElInput type="password" v-model={changeValueRef.value} />
         );
       };
     }
   })
 );
 
-export default SelectionWidget;
+export default PasswordWidget;

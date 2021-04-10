@@ -4,6 +4,7 @@ import StringField from './fields/StringField';
 import NumberField from './fields/NumberField';
 import ObjectField from './fields/ObjectField';
 import ArrayField from './fields/ArrayField';
+import BooleanField from './fields/BooleanField';
 import { retrieveSchema } from './utils';
 
 export default defineComponent({
@@ -43,6 +44,10 @@ export default defineComponent({
         }
         case SchemaTypes.ARRAY: {
           Component = ArrayField;
+          break;
+        }
+        case SchemaTypes.BOOLEAN: {
+          Component = BooleanField;
           break;
         }
         default: {

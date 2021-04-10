@@ -22,13 +22,14 @@ export default defineComponent({
     });
 
     return () => {
-      const { value, errorSchema, schema } = props;
+      const { value, errorSchema, schema, required } = props;
       const NumberWidget = NumberWidgetRef.value;
       return (
         <NumberWidget
           value={value}
           errors={errorSchema._errors}
           onChange={handleChange}
+          required={required}
           schema={schema}
         />
       );

@@ -7,6 +7,8 @@ import {
 } from '../types';
 import { createUseStyles } from 'vue-jss';
 import { getWidget } from '../ThemeProcess';
+import 'element-plus/lib/theme-chalk/index.css'
+import { ElButton } from 'element-plus'
 
 const useStyles = createUseStyles({
   container: {
@@ -14,7 +16,7 @@ const useStyles = createUseStyles({
   },
   actions: {
     background: '#eeeeee',
-    padding: 10,
+    padding: 6,
     textAlign: 'right'
   },
   action: {
@@ -66,18 +68,18 @@ const SingleArraySchema = defineComponent({
       return (
         <div class={classes.container}>
           <div class={classes.actions}>
-            <button class={classes.action} onClick={handleOnAdd}>
-              新增
-            </button>
-            <button class={classes.action} onClick={handleOnDelete}>
-              删除
-            </button>
-            <button class={classes.action} onClick={handleOnUp}>
-              上移
-            </button>
-            <button class={classes.action} onClick={handleOnDown}>
-              下移
-            </button>
+            <a onClick={handleOnAdd} class={classes.actions}>
+              <i class="el-icon-plus"></i>
+            </a>
+            <a onClick={handleOnDelete} class={classes.actions}>
+              <i class="el-icon-delete"></i>
+            </a>
+            <a onClick={handleOnUp} class={classes.actions}>
+              <i class="el-icon-sort-up"></i>
+            </a>
+            <a onClick={handleOnDown} class={classes.actions}>
+              <i class="el-icon-sort-down"></i>
+            </a>
           </div>
           <div class={classes.content}>{slots.default && slots.default()}</div>
         </div>

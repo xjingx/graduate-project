@@ -1,13 +1,12 @@
-import { defineComponent, ref, watch } from 'vue';
-import { SelectionWidget, SelectionWidgetProps } from '../types';
+import { CommonWidget, CommonWidgetProps } from '../types';
+import { defineComponent, nextTick, ref, watch } from 'vue';
 import { withFormItem } from './FormInfo';
 import 'element-plus/lib/theme-chalk/index.css'
-import { ElSelect, ElOption } from 'element-plus'
+import { ElSwitch } from 'element-plus'
 
-const SelectionWidget: SelectionWidget = withFormItem(
+const NumberWidget: CommonWidget = withFormItem(
   defineComponent({
-    name: 'SelectArrayComponent',
-    props: SelectionWidgetProps,
+    props: CommonWidgetProps,
     setup(props) {
       const changeValueRef = ref(props.value);
 
@@ -30,18 +29,15 @@ const SelectionWidget: SelectionWidget = withFormItem(
           }
         }
       );
+
       return () => {
-        const { options } = props;
+        const { value } = props;
         return (
-          <ElSelect v-model={changeValueRef.value}>
-            {options.map((opValue) => {
-              return <ElOption value={opValue.value}>{opValue.key}</ElOption>;
-            })}
-          </ElSelect>
+          <ElSwitch inactive-color="#d3d4d6" v-model={changeValueRef.value} />
         );
       };
     }
   })
 );
 
-export default SelectionWidget;
+export default NumberWidget;

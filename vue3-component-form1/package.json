@@ -28,6 +28,7 @@
     "circular-dependency-plugin": "^5.2.2",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.3",
+    "element-plus": "^1.0.2-beta.39",
     "json-schema-merge-allof": "^0.8.1",
     "jsonpointer": "^4.1.0",
     "jss": "^10.5.1",

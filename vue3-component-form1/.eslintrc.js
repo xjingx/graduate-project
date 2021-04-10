@@ -21,6 +21,7 @@ module.exports = {
     'no-prototype-builtins': 'off',
     '@typescript-eslint/camelcase': 'off',
     'vue/no-mutating-props': 'off',
-    '@typescript-eslint/class-name-casing': 'off'
+    '@typescript-eslint/class-name-casing': 'off',
+    "prettier/prettier": "off",
   }
 };

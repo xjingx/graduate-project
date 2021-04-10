@@ -27,8 +27,15 @@ function toErrorSchema(errors: FormatErrorsObject[]) {
   }
 
   return errors.reduce((errorSchema, error) => {
-    const { property, message } = error;
-    const path = toPath(property); // /id/'123 -> [id, 123]
+    let getProperty = "";
+    const { name, property, message } = error;
+    if (property === "" && name === "required") {
+      const newMsg = message?.split('').slice(8).join('');
+      getProperty = '.' + newMsg;
+    } else {
+      getProperty = property;
+    }
+    const path = toPath(getProperty); // /id/'123 -> [id, 123]
     let parent = errorSchema;
 
     console.log('path------>', path);

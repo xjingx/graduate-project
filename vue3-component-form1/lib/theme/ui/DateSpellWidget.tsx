@@ -1,14 +1,18 @@
-import { defineComponent, ref, watch } from 'vue';
-import { SelectionWidget, SelectionWidgetProps } from '../types';
-import { withFormItem } from './FormInfo';
+import { CommonWidget, CommonWidgetProps } from '../../types';
+import { defineComponent, nextTick, ref, watch } from 'vue';
 import 'element-plus/lib/theme-chalk/index.css'
-import { ElSelect, ElOption } from 'element-plus'
+import { ElDatePicker } from 'element-plus'
 
-const SelectionWidget: SelectionWidget = withFormItem(
+import { withFormItem } from '../FormInfo';
+
+const PasswordWidget: CommonWidget = withFormItem(
   defineComponent({
-    name: 'SelectArrayComponent',
-    props: SelectionWidgetProps,
+    name: 'DateSpellWidget',
+    props: CommonWidgetProps,
     setup(props) {
+
+      console.log('123', ElDatePicker)
+
       const changeValueRef = ref(props.value);
 
       // 为什么要这么麻烦，因为双向绑定不能直接绑定props，绑定的是声明的变量changeValueRef.value
@@ -30,18 +34,15 @@ const SelectionWidget: SelectionWidget = withFormItem(
           }
         }
       );
+
       return () => {
-        const { options } = props;
         return (
-          <ElSelect v-model={changeValueRef.value}>
-            {options.map((opValue) => {
-              return <ElOption value={opValue.value}>{opValue.key}</ElOption>;
-            })}
-          </ElSelect>
+          <ElDatePicker unlink-panels range-separator="至" start-placeholder="开始时间"
+          end-placeholder="结束时间" placeholder="选择日期时间" type="datetimerange" v-model={ changeValueRef.value } />
         );
       };
     }
   })
 );
 
-export default SelectionWidget;
+export default PasswordWidget;

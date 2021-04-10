@@ -22,7 +22,7 @@ export default defineComponent({
     });
 
     return () => {
-      const { value, errorSchema, schema } = props;
+      const { value, errorSchema, schema, required } = props;
       const TextWidget = TextWidgetRef.value;
 
       return (
@@ -31,6 +31,7 @@ export default defineComponent({
           errors={errorSchema._errors}
           onChange={handleChange}
           schema={schema}
+          required={required}
           options={widgetOptionsRef.value}
         />
       );

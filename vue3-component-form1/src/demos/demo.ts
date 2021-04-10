@@ -1,4 +1,4 @@
-import PasswordWidget from '../components/PasswordWidget';
+import PasswordWidget from '../../lib/theme/ui/PasswordWidget';
 export default {
   name: 'Demo',
   schema: {
@@ -6,21 +6,22 @@ export default {
     properties: {
       pass1: {
         type: 'string',
-        //minLength: 10,
-        test: true,
-        title: 'password'
+        minLength: 10,
+        //test: true,
+        title: 'password',
       },
       pass2: {
         type: 'string',
         minLength: 10,
-        title: 're try password'
+        title: 're try password',
       },
       color: {
         type: 'string',
         format: 'color',
         title: 'Input Color'
       }
-    }
+    },
+    required: ['pass1',]
   },
   async customValidate(data: any, errors: any) {
     return new Promise((resolve) => {
@@ -33,8 +34,7 @@ export default {
     });
   },
   default: {
-    pass1: '',
-    pass2: ''
+    pass1: ''
   },
   uiSchema: {
     properties: {

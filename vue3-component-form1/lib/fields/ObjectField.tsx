@@ -20,6 +20,7 @@ export default defineComponent({
 
       props.onChange(value); //触发onChange提交最新的value
     };
+    const requires = props.schema.required || [];
 
     return () => {
       const { schema, rootSchema, value, errorSchema, uiSchema } = props;
@@ -29,7 +30,8 @@ export default defineComponent({
       const currentValue: any = isObject(value) ? value : {};
       // 这个地方uischema要传对应的，所以要加key键
       return Object.keys(properties).map(
-        (key: any, index: number) => (
+        (key: any, index: number) => 
+          (
           <SchemaItem
             schema={properties[key]}
             uiSchema={uiSchema.properties ? uiSchema.properties[key] || {} : {}}
@@ -37,6 +39,7 @@ export default defineComponent({
             value={currentValue[key]}
             errorSchema={errorSchema[key] || {}}
             key={index}
+            required={requires.indexOf(key) > -1}
             onChange={(v: any) => handleObjectFieldChange(v, key)}
           />
         )

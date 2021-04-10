@@ -1,14 +1,18 @@
-import { defineComponent, ref, watch } from 'vue';
-import { SelectionWidget, SelectionWidgetProps } from '../types';
-import { withFormItem } from './FormInfo';
+import { CommonWidget, CommonWidgetProps } from '../../types';
+import { defineComponent, nextTick, ref, watch } from 'vue';
 import 'element-plus/lib/theme-chalk/index.css'
-import { ElSelect, ElOption } from 'element-plus'
+import { ElTimePicker } from 'element-plus'
 
-const SelectionWidget: SelectionWidget = withFormItem(
+import { withFormItem } from '../FormInfo';
+
+const PasswordWidget: CommonWidget = withFormItem(
   defineComponent({
-    name: 'SelectArrayComponent',
-    props: SelectionWidgetProps,
+    name: 'DateTimeWidget',
+    props: CommonWidgetProps,
     setup(props) {
+
+      console.log('123', ElTimePicker)
+
       const changeValueRef = ref(props.value);
 
       // 为什么要这么麻烦，因为双向绑定不能直接绑定props，绑定的是声明的变量changeValueRef.value
@@ -30,18 +34,14 @@ const SelectionWidget: SelectionWidget = withFormItem(
           }
         }
       );
+
       return () => {
-        const { options } = props;
         return (
-          <ElSelect v-model={changeValueRef.value}>
-            {options.map((opValue) => {
-              return <ElOption value={opValue.value}>{opValue.key}</ElOption>;
-            })}
-          </ElSelect>
+          <ElTimePicker placeholder="选择时间" v-model={ changeValueRef.value }/>
         );
       };
     }
   })
 );
 
-export default SelectionWidget;
+export default PasswordWidget;

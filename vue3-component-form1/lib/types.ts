@@ -179,6 +179,9 @@ export const FiledItemProps = {
   uiSchema: {
     type: Object as PropType<uiSchema>,
     required: true
+  },
+  required: {
+    type: Boolean,
   }
 } as const;
 
@@ -255,6 +258,9 @@ export const CommonWidgetProps = {
   },
   options: {
     type: Object as PropType<{ [keys: string]: any }>
+  },
+  required: {
+    type: Boolean,
   }
 } as const;
 
@@ -295,7 +301,8 @@ export enum SelectionWidgetNames {
 
 export enum CommonWidgetNames {
   TextWidget = 'TextWidget',
-  NumberWidget = 'NumberWidget'
+  NumberWidget = 'NumberWidget',
+  BooleanWidget = 'BooleanWidget'
 }
 
 export interface Theme {
@@ -303,5 +310,6 @@ export interface Theme {
     [SelectionWidgetNames.SelectionWidget]: SelectionWidget;
     [CommonWidgetNames.TextWidget]: CommonWidget;
     [CommonWidgetNames.NumberWidget]: CommonWidget;
+    [CommonWidgetNames.BooleanWidget]: CommonWidget;
   };
 }

@@ -6,10 +6,11 @@ import SchemaFrom from './SchemaForm';
 import NumberFiled from './fields/NumberField';
 import StringField from './fields/StringField';
 import ArrayField from './fields/ArrayField';
+import BooleanField from './fields/BooleanField';
 
 import SelectionWidget from './theme/SelectionWidget';
 export default SchemaFrom;
 
 export * from './types';
 
-export { NumberFiled, StringField, ArrayField, SelectionWidget, ThemeProcess };
+export { NumberFiled, StringField, ArrayField, SelectionWidget, BooleanField, ThemeProcess };
