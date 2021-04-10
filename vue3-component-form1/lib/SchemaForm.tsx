@@ -47,7 +47,7 @@ export default defineComponent({
           : [props.customFormats];
         return customFormats.reduce((result, format) => {
           //  validatorRef.value.addFormat(format.name, format.definition);
-          result[format.name] = format.component;
+          result[format.name] = format.component; // 用name标识对应的组件
           return result;
         }, {} as { [key: string]: CommonWidget });
       } else {

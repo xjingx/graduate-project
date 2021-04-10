@@ -27,7 +27,7 @@ export default defineComponent({
       const properties = schema.properties || {}; //有可能不存在properties
 
       const currentValue: any = isObject(value) ? value : {};
-
+      // 这个地方uischema要传对应的，所以要加key键
       return Object.keys(properties).map(
         (key: any, index: number) => (
           <SchemaItem

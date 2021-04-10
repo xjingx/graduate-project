@@ -79,7 +79,7 @@ function formatErrors(errors: Ajv.ErrorObject[] | null | undefined) {
  */
 export async function validateFormData(
   validator: Ajv.Ajv,
-  formData: any,
+  formData: any, //就是default里面的内容
   schema: Schema,
   locale = 'zh',
   customValidate?: (data: any, errors: any) => void

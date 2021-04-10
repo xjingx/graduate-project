@@ -195,7 +195,7 @@ export default defineComponent({
         return items.map((v: Schema, index: number) => {
           const itemUIschema = uiSchema.items;
           // 判断是不是数组 从而决定应该是什么
-          const us = Array.isArray(itemUIschema)
+          const us = Array.isArray(itemUIschema) // 得到对应index的uiSchema值，传入
             ? itemUIschema[index] || {}
             : itemUIschema || {};
           return (
@@ -214,6 +214,7 @@ export default defineComponent({
         const defaultValue = Array.isArray(value) ? value : [];
         console.log('de', defaultValue);
         // 为什么这个不用items，因为这个items只有一种情况，恒只有一种，根据value的值来渲染看多少个组件
+        // uiSchema也就只有一种类型，所以直接传
         return defaultValue.map((v: any, index: number) => {
           return (
             <SingleArraySchema

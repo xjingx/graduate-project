@@ -47,12 +47,12 @@ export function getWidget<T extends SelectionWidgetNames | CommonWidgetNames>(
 ) {
   const formatContent = GetFormatRefContent();
 
-  // 是对象就直接返回,有可能是string
   if (props) {
     const { uiSchema, schema } = props;
     if (uiSchema?.widget && isObject(uiSchema.widget)) {
       return ref(uiSchema.widget as CommonWidget);
-    }
+    } // 有对应的uiSchema 先返回uiSchema，没有就返回format里的内容，format也没有就返回主题系统里的内容，
+    // uischema和format都是给开发者自己开发的，我们只是提供接口能力
     if (schema.format) {
       if (formatContent.formatMapRef.value[schema.format]) {
         // 拿到的是组件 转成ref
