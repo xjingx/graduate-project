@@ -14,7 +14,7 @@ import customKeyword from './formats/customKeyword';
 
 
 
-import  { Swiper } from '../lib/swiper/index';
+import  Swiper from '../lib/swiper/index';
 
 console.log('----->', demos);
 
