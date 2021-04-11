@@ -181,7 +181,9 @@ export default defineComponent({
       }
     ]
     
-
+    function getSwiperSchema(text: string) {
+      console.log('getSwiperSchema', text);
+    }
     return () => {
       const classes = classesRef.value;
       const selected = selectedRef.value;
@@ -256,8 +258,7 @@ export default defineComponent({
             </div>
           </div>
           <div style="width: 1200px; height: 900px">
-            <Swiper autoplay={3000} images={images}>
-            </Swiper>
+            <Swiper autoplay={3000} images={images} onGetSwiperSchema={getSwiperSchema}></Swiper>
           </div>
         </div>
         // </VJSFThemeProvider>

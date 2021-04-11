@@ -71,7 +71,7 @@ export default {
     window.addEventListener('resize', () => {
         this.initialize();
     })
-    console.log('23423423423432', this.createSchemaForm())
+    this.createSchemaForm()
   },
   unmounted() {
     clearTimeout(this.timer);
@@ -198,23 +198,26 @@ export default {
             }
           }
         }
-      })
+      });
       defaults = this.images.map((item) => {
         return {
           linkUrl: item.linkUrl,
           picUrl: item.picUrl
         }
-      })
-      const ObjectArray = {
+      });
+      const ObjectArray = JSON.stringify({
         name: 'lunbo',
         schema: {
           type: "array",
           title: "轮播数据",
           items,
-          default: defaults
+        },
+        default: defaults,
+        uiSchema: {
+          properties: {}
         }
-      }
-      return ObjectArray;
+      });
+      this.$emit('getSwiperSchema', ObjectArray);
     }
   }
 };
