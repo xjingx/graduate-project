@@ -7,7 +7,8 @@ import {
   reactive,
   ref,
   watchEffect,
-  computed
+  computed,
+  getCurrentInstance
 } from 'vue'; //provide和inject解决循环引用，可以在孙子节点通过inject拿到provide提供的祖先节点
 import {
   FiledFormProps,
@@ -58,7 +59,6 @@ export default defineComponent({
     const forMatProvide: any = {
       formatMapRef
     };
-
     provide(formatMapRefProvideKey, forMatProvide);
 
     const transformSchemaRef = computed(() => {

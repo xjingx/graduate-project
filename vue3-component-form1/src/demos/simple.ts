@@ -5,14 +5,20 @@ export default {
     type: 'object',
     required: ['firstName', 'lastName'],
     properties: {
+      testImg: {
+        title: 'imgTest',
+        type: 'img',
+        default: 'aa'
+      },
       firstName: {
         title: 'firstName',
         type: 'string',
-        default: 'Chuck'
+        default: 'Chuck111'
       },
       lastName: {
         title: 'lastName',
-        type: 'string'
+        type: 'string',
+        default: 'Chuck113331'
       },
       telephone: {
         title: 'telephone',
@@ -58,9 +64,6 @@ export default {
   default: {
     firstName: 'Chuck',
     lastName: 'Norris',
-    age: 75,
-    bio: 'Roundhouse kicking asses since 1940',
-    password: 'noneed',
     singleTypeArray: ['jingxiang xu']
   }
 };

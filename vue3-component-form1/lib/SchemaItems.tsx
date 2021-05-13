@@ -5,6 +5,7 @@ import NumberField from './fields/NumberField';
 import ObjectField from './fields/ObjectField';
 import ArrayField from './fields/ArrayField';
 import BooleanField from './fields/BooleanField';
+import ImgField from './fields/ImgField';
 import { retrieveSchema } from './utils';
 
 export default defineComponent({
@@ -16,7 +17,7 @@ export default defineComponent({
     const retrieveSchemaRef = computed(() => {
       const { schema, rootSchema, value } = props;
       return transformSchemaContent.transformSchemaRef.value(
-        retrieveSchema(schema, rootSchema, value)
+        retrieveSchema(schema, rootSchema, value) // 这个value需要传入Schema类型，因此解析后还是Schema
       );
     });
 
@@ -48,6 +49,10 @@ export default defineComponent({
         }
         case SchemaTypes.BOOLEAN: {
           Component = BooleanField;
+          break;
+        }
+        case SchemaTypes.IMG: {
+          Component = ImgField;
           break;
         }
         default: {

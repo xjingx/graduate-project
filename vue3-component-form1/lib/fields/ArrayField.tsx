@@ -215,7 +215,7 @@ export default defineComponent({
       } else if (!isSelect) {
         const defaultValue = Array.isArray(value) ? value : [];
         console.log('de', defaultValue);
-        // 为什么这个不用items，因为这个items只有一种情况，恒只有一种，根据value的值来渲染看多少个组件
+        // 为什么这个不用items，因为这个items只有一种情况，恒只有一种，根据value的值来渲染看多少个组件，没有default也无所谓，反正可以增删，就当一个处理
         // uiSchema也就只有一种类型，所以直接传
         return defaultValue.map((v: any, index: number) => {
           return (

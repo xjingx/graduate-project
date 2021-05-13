@@ -1,10 +1,16 @@
 import { CommonWidget, CommonWidgetProps } from '../types';
 import { defineComponent, nextTick, computed, ref, watch } from 'vue';
-
+import { createUseStyles } from 'vue-jss';
 import { withFormItem } from './FormInfo';
 
 import 'element-plus/lib/theme-chalk/index.css'
 import { ElInput } from 'element-plus'
+
+const useStyles = createUseStyles({
+  formatColor: {
+    color: 'red',
+  }
+});
 
 const TextWidget: CommonWidget = withFormItem(
   defineComponent({
@@ -12,6 +18,8 @@ const TextWidget: CommonWidget = withFormItem(
     props: CommonWidgetProps,
     setup(props) {
       const changeValueRef = ref(props.value);
+
+      const classesRef = useStyles();
 
       // 为什么要这么麻烦，因为双向绑定不能直接绑定props，绑定的是声明的变量changeValueRef.value
       // 而我们在这个变量改变时，必须去通过onChange去改变我们props里的value
@@ -41,9 +49,10 @@ const TextWidget: CommonWidget = withFormItem(
 
       return () => {
         const { value } = props;
+        const classes = classesRef.value;
         return (
           <div>
-            <ElInput size={'medium'} type="text" v-model={changeValueRef.value} style={styleRef.value}/>
+            <ElInput size={'medium'} type="text" v-model={changeValueRef.value} class={classes.formatColor}/>
           </div>
         );
       };

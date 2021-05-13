@@ -1,6 +1,6 @@
 {
   "name": "grd-project-test",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -36,6 +36,7 @@
     "jss-preset-default": "^10.5.1",
     "lodash.topath": "^4.5.2",
     "lodash.union": "^4.6.0",
+    "mitt": "^2.1.0",
     "node-sass": "^5.0.0",
     "vue": "^3.0.0",
     "vue-jss": "^0.0.4"

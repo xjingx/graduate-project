@@ -19,7 +19,8 @@ export enum SchemaTypes {
   'STRING' = 'string',
   'OBJECT' = 'object',
   'ARRAY' = 'array',
-  'BOOLEAN' = 'boolean'
+  'BOOLEAN' = 'boolean',
+  'IMG' = 'img',
 }
 
 type SchemaRef = { $ref: string };
@@ -302,7 +303,8 @@ export enum SelectionWidgetNames {
 export enum CommonWidgetNames {
   TextWidget = 'TextWidget',
   NumberWidget = 'NumberWidget',
-  BooleanWidget = 'BooleanWidget'
+  BooleanWidget = 'BooleanWidget',
+  ImgWidget = 'ImgWidget'
 }
 
 export interface Theme {
@@ -311,5 +313,6 @@ export interface Theme {
     [CommonWidgetNames.TextWidget]: CommonWidget;
     [CommonWidgetNames.NumberWidget]: CommonWidget;
     [CommonWidgetNames.BooleanWidget]: CommonWidget;
+    [CommonWidgetNames.ImgWidget]: CommonWidget;
   };
 }

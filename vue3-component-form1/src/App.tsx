@@ -1,4 +1,12 @@
-import { defineComponent, ref, Ref, reactive, watchEffect } from 'vue';
+import { 
+  getCurrentInstance, 
+  defineComponent, 
+  ref, 
+  Ref, 
+  reactive,
+  watchEffect, 
+  onBeforeUnmount 
+} from 'vue';
 import { createUseStyles } from 'vue-jss';
 
 import MonacoEditor from './components/MonacoEditor';
@@ -12,9 +20,9 @@ import theme from '../lib/theme';
 import { format } from './formats/customFormat';
 import customKeyword from './formats/customKeyword';
 
-
-
-import  Swiper from '../lib/swiper/index';
+import BackDialog from '../lib/dialog/index'
+import Swiper from '../lib/swiper/index';
+import SwiperTest from '../lib/swiperTest/index';
 
 console.log('----->', demos);
 
@@ -36,6 +44,11 @@ const useStyles = createUseStyles({
   },
   menu: {
     marginBottom: 20
+  },
+  title: {
+    width: 700,
+    display: 'flex',
+    flexDirection: 'row',
   },
   code: {
     width: 700,
@@ -77,12 +90,16 @@ const useStyles = createUseStyles({
     '&:hover': {
       background: '#337ab7'
     }
-  }
+  },
 });
 
 export default defineComponent({
   setup() {
     const selectedRef: Ref<number> = ref(0);
+
+    const ctx: any = getCurrentInstance();
+    ctx.ctx.$backDialog.bus.on('show', show);
+    ctx.ctx.$backDialog.bus.on('close', close);
 
     const demo: {
       schema: Schema | null;
@@ -92,6 +109,7 @@ export default defineComponent({
       dataCode: string;
       uiSchemaCode: string;
       customValidate: ((d: any, e: any) => void) | undefined;
+      title: string;
     } = reactive({
       schema: null,
       data: {},
@@ -99,8 +117,25 @@ export default defineComponent({
       schemaCode: '',
       dataCode: '',
       uiSchemaCode: '',
-      customValidate: undefined
+      customValidate: undefined,
+      title: '',
     });
+
+    const dialogShow: Ref<any> = ref()
+    dialogShow.value = false;
+
+    function show() {
+      dialogShow.value = true;
+    }
+    function close() {
+      dialogShow.value = false;
+    }
+    function showDialog() {
+      ctx.ctx.$backDialog.show({data: {}, onClickSure: oC});
+    }
+    function oC() {
+      dialogShow.value = false;
+    }
 
     watchEffect(() => {
       // 点击首页按钮会触发这个watch，改变index从而改变d，然后改变demo
@@ -113,7 +148,19 @@ export default defineComponent({
       demo.dataCode = toJson(d.default);
       demo.uiSchemaCode = toJson(d.uiSchema);
       demo.customValidate = d.customValidate;
+      demo.title = d.name;
     });
+
+    const isLunbo: Ref<any> = ref();
+    const dialog: Ref<any> = ref();
+
+    watchEffect(() => {
+      isLunbo.value = demo.title === 'lunbo' ? true : false;
+    })
+
+    watchEffect(() => {
+      dialog.value = demo.title === 'dialog' ? true : false;
+    })
 
     const methodRef: Ref<any> = ref();
 
@@ -195,7 +242,12 @@ export default defineComponent({
         // <VJSFThemeProvider theme={theme as any}>
         <div class={classes.container}>
           <div class={classes.menu}>
-            <h1>Vue3 JsonSchema Form</h1>
+            <div class={classes.title}>
+              <h1>Vue3 JsonSchema Form</h1>
+              {dialog.value ? 
+                (<button onClick={showDialog}>唤起弹窗</button>) : ''
+              }
+            </div>
             <div>
               {demos.map((demo, index) => (
                 <button
@@ -212,6 +264,11 @@ export default defineComponent({
           </div>
           <div class={classes.content}>
             <div class={classes.code}>
+              {isLunbo.value ? 
+                (<div>
+                  <Swiper autoplay={3000} images={images} onGetSwiperSchema={getSwiperSchema}></Swiper>
+                </div>) : ''
+              }
               <MonacoEditor
                 code={demo.schemaCode}
                 class={classes.codePanel}
@@ -257,9 +314,9 @@ export default defineComponent({
               <button onClick={doVerify}>校验</button>
             </div>
           </div>
-          <div style="width: 1200px; height: 900px">
-            <Swiper autoplay={3000} images={images} onGetSwiperSchema={getSwiperSchema}></Swiper>
-          </div>
+          {dialogShow.value ? 
+            (<BackDialog dialogData={demo.data} onclickSure={close}></BackDialog>) : ''
+          }
         </div>
         // </VJSFThemeProvider>
         // </StyleThemeProvider>
