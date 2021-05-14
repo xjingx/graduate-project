@@ -22,7 +22,6 @@ import customKeyword from './formats/customKeyword';
 
 import BackDialog from '../lib/dialog/index'
 import Swiper from '../lib/swiper/index';
-import SwiperTest from '../lib/swiperTest/index';
 
 console.log('----->', demos);
 
