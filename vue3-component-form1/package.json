@@ -1,13 +1,14 @@
 {
   "name": "grd-project-test",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build:core": "cross-env TYPE=lib vue-cli-service build --target lib --name index --no-clean lib/index.ts",
     "build:theme": "cross-env TYPE=lib vue-cli-service build --target lib --name theme/index --no-clean lib/theme/index.tsx",
     "build:swiper": "cross-env TYPE=lib vue-cli-service build --target lib --name swiper/index --no-clean lib/swiper/index.tsx",
-    "build": "rimraf dist && npm run build:core && npm run build:theme && npm run build:swiper",
+    "build:dialog": "cross-env TYPE=lib vue-cli-service build --target lib --name dialog/index --no-clean lib/dialog/index.tsx",
+    "build": "rimraf dist && npm run build:core && npm run build:theme && npm run build:swiper && npm run build:dialog",
     "prepublishOnly": "npm run build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",

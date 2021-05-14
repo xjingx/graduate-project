@@ -1,6 +1,6 @@
 import { CommonWidget, CommonWidgetProps } from '../../types';
 import { defineComponent, nextTick, ref, watch } from 'vue';
-import 'element-plus/lib/theme-chalk/index.css'
+
 import { ElInput } from 'element-plus'
 
 import { withFormItem } from '../FormInfo';

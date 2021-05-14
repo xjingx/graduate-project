@@ -1,7 +1,7 @@
 import { CommonWidget, CommonWidgetProps } from '../types';
 import { defineComponent, nextTick, ref, watch } from 'vue';
 import { withFormItem } from './FormInfo';
-import 'element-plus/lib/theme-chalk/index.css'
+
 import { ElInput } from 'element-plus'
 
 const NumberWidget: CommonWidget = withFormItem(

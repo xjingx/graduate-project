@@ -35,10 +35,11 @@ function toErrorSchema(errors: FormatErrorsObject[]) {
     } else {
       getProperty = property;
     }
+    console.log('getProperty', getProperty)
     const path = toPath(getProperty); // /id/'123 -> [id, 123]
+    console.log('path', path)
     let parent = errorSchema;
 
-    console.log('path------>', path);
     // 如果property是根节点，那么toPath会创建一个空数组，直接移除
     if (path.length > 0 && path[0] === '') {
       path.splice(0, 1);
@@ -99,9 +100,12 @@ export async function validateFormData(
   }
 
   i18n[locale](validator.errors);
+  console.log('<-------------------------------1', validator.errors)
 
   let errors = formatErrors(validator.errors);
+  console.log('<-------------------------------2', errors)
 
+// 当校验过程出现问题 才会走到这 显示校验的问题
   if (validateError) {
     errors = [
       ...errors,
@@ -112,7 +116,9 @@ export async function validateFormData(
   }
 
   const errorSchema = toErrorSchema(errors);
+  console.log('<-------------------------------3', errorSchema)
 
+  // 如果没有自定义的内容，直接返回就行，有的话要特殊处理
   if (!customValidate) {
     return {
       errors,
@@ -136,6 +142,7 @@ export async function validateFormData(
   const proxy = createErrorProxy();
   await customValidate(formData, proxy);
   const newErrorSchema = mergeObject(errorSchema, proxy, true);
+  console.log('<-------------------------------4', newErrorSchema)
 
   return {
     errors,
@@ -151,8 +158,9 @@ function createErrorProxy() {
   return new Proxy(raw, {
     get(target, key, reciver) {
       if (key === 'addError') {
-        // 往对象增加一个_errors
+        // 往对象增加一个_errors, 接收一个msg，就是自定义的错误提醒
         return (msg: string) => {
+          // 获取target里面_errors的值
           const _errors = Reflect.get(target, '_errors', reciver);
           if (_errors && Array.isArray(_errors)) {
             _errors.push(msg);

@@ -205,17 +205,6 @@ export function GetSchemaItemContent() {
   return SchemaItemContent;
 }
 
-// 获取Theme(好像没用了)
-export function GetThemeContent() {
-  const ThemeContent: { theme: Theme } | undefined = inject(ThemeProvideKey);
-
-  if (!ThemeContent) {
-    throw Error('this key is not exist');
-  }
-
-  return ThemeContent;
-}
-
 // 获取formatRef
 export function GetFormatRefContent() {
   const FormatRefContent:

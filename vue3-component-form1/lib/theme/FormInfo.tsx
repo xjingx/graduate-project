@@ -1,6 +1,5 @@
 import { defineComponent } from 'vue';
 import { CommonWidgetProps, CommonWidget } from '../types';
-import 'element-plus/lib/theme-chalk/index.css'
 
 import { createUseStyles } from 'vue-jss';
 

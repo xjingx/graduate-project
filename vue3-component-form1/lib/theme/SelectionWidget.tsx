@@ -1,7 +1,7 @@
 import { defineComponent, ref, watch } from 'vue';
 import { SelectionWidget, SelectionWidgetProps } from '../types';
 import { withFormItem } from './FormInfo';
-import 'element-plus/lib/theme-chalk/index.css'
+
 import { ElSelect, ElOption } from 'element-plus'
 
 const SelectionWidget: SelectionWidget = withFormItem(

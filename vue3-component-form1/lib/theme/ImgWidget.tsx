@@ -3,7 +3,6 @@ import { defineComponent, nextTick, computed, ref, watch } from 'vue';
 import { withFormItem } from './FormInfo';
 import { createUseStyles } from 'vue-jss';
 
-import 'element-plus/lib/theme-chalk/index.css'
 import { ElUpload, ElButton } from 'element-plus'
 
 const useStyles = createUseStyles({

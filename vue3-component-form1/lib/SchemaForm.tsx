@@ -71,6 +71,7 @@ export default defineComponent({
           let newSchema = schema;
           customKeyWords.forEach((keyword) => {
             if ((newSchema as any)[keyword.name]) {
+              // 给schema的内容也加上限制的内容
               newSchema = keyword.transformSchema(schema);
             }
           });
@@ -102,6 +103,7 @@ export default defineComponent({
           ? props.customFormats
           : [props.customFormats];
         customFormats.forEach((format) => {
+          // 加上customFormats里面的definition限制
           validatorRef.value.addFormat(format.name, format.definition);
         });
       }
@@ -112,6 +114,7 @@ export default defineComponent({
           : [props.customKeywords];
         // 这addKeyword 注意一下
         customKeyWords.forEach((keyword) =>
+        // 加上customKeywords里面的限制
           validatorRef.value.addKeyword(keyword.name, keyword.definition)
         );
       }

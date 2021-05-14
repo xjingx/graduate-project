@@ -7,8 +7,6 @@ import {
 } from '../types';
 import { createUseStyles } from 'vue-jss';
 import { getWidget } from '../ThemeProcess';
-import 'element-plus/lib/theme-chalk/index.css'
-import { ElButton } from 'element-plus'
 
 const useStyles = createUseStyles({
   container: {
