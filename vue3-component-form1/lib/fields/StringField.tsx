@@ -7,6 +7,8 @@ export default defineComponent({
   props: FiledItemProps,
   setup(props) {
     const handleChange = (v: string) => {
+      const re= /select|update|delete|exec|count|'|"|=|;|>|<|%/gi
+      v = v.replace(re, '');
       return props.onChange(v);
     };
 
